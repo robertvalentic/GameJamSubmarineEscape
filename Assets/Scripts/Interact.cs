@@ -7,6 +7,9 @@ public class Interact : MonoBehaviour
 {
     [SerializeField] private Camera _camera = null;
     [SerializeField] private float _distance = 3.0f;
+    [SerializeField] private GameObject _crosshairObj = null;
+    [SerializeField] private Sprite _defaultCrosshairSprite = null;
+    [SerializeField] private Sprite _interactCrosshairSprite = null;
     private RaycastHit _hit;
     private bool _didHit;
     private bool _holdingItem = false;
@@ -39,6 +42,19 @@ public class Interact : MonoBehaviour
         else if (Input.GetButtonDown("Interact") && _holdingItem == true)
         {
             DropHeldItem();
+        }
+
+        Image img = _crosshairObj.GetComponent<Image>();
+        if (_didHit && _hit.collider.tag == "Interactable")
+        {
+            if (img != null)
+            {
+                img.sprite = _interactCrosshairSprite;
+            }
+        }
+        else
+        {
+            img.sprite = _defaultCrosshairSprite;
         }
     }
 
